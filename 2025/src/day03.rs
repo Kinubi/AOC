@@ -11,7 +11,6 @@ pub fn part1(input: &str) -> u64 {
     let lines = input.lines().collect::<Vec<&str>>();
     let mut total: u64 = 0;
     for line in lines.iter() {
-        println!("Processing line: {}", line);
         if line.is_empty() {
             continue;
         }
@@ -24,7 +23,6 @@ pub fn part2(input: &str) -> u64 {
     let lines = input.lines().collect::<Vec<&str>>();
     let mut total: u64 = 0;
     for line in lines.iter() {
-        println!("Processing line: {}", line);
         if line.is_empty() {
             continue;
         }
