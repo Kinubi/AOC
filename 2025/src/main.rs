@@ -2,6 +2,7 @@ mod day01;
 mod day02;
 mod day03;
 mod day04;
+mod day05;
 
 fn main() {
     println!("🎄 Advent of Code 2025 🎄\n");
@@ -13,4 +14,6 @@ fn main() {
     day03::solve();
     println!("\n--- Day 4 ---");
     day04::solve();
+    println!("\n--- Day 5 ---");
+    day05::solve();
 }
