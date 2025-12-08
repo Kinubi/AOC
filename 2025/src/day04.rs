@@ -2,9 +2,8 @@ use core::num;
 use std::fs;
 
 pub fn solve() {
-    let input = fs::read_to_string("inputs/day04.txt")
-        .expect("Failed to read input file");
-    
+    let input = fs::read_to_string("inputs/day04.txt").expect("Failed to read input file");
+
     let solver = Day04::new(&input);
     println!("Part 1: {}", solver.part1());
     println!("Part 2: {}", solver.part2());
@@ -21,43 +20,49 @@ impl Day04 {
             .filter(|line| !line.is_empty())
             .map(|line| line.to_string())
             .collect();
-        
+
         Day04 { lines }
     }
-    
+
     fn part1(&self) -> u64 {
-         let grid: Vec<Vec<char>> = self.lines.iter()
+        let grid: Vec<Vec<char>> = self.lines
+            .iter()
             .map(|line| line.chars().collect())
             .collect();
-        
+
         let rows = grid.len();
         let cols = grid[0].len();
-        
+
         let mut result = grid.clone();
-        
+
         // 8 directions: top-left, top, top-right, left, right, bottom-left, bottom, bottom-right
         let directions: [(i32, i32); 8] = [
-            (-1, -1), (-1, 0), (-1, 1),
-            (0, -1),           (0, 1),
-            (1, -1),  (1, 0),  (1, 1),
+            (-1, -1),
+            (-1, 0),
+            (-1, 1),
+            (0, -1),
+            (0, 1),
+            (1, -1),
+            (1, 0),
+            (1, 1),
         ];
         let mut total_accessible = 0;
-        
+
         for r in 0..rows {
             for c in 0..cols {
                 if grid[r][c] == '@' {
                     // Count adjacent @ symbols
                     let mut neighbor_count = 0;
                     for (dr, dc) in directions.iter() {
-                        let nr = r as i32 + dr;
-                        let nc = c as i32 + dc;
-                        if nr >= 0 && nr < rows as i32 && nc >= 0 && nc < cols as i32 {
+                        let nr = (r as i32) + dr;
+                        let nc = (c as i32) + dc;
+                        if nr >= 0 && nr < (rows as i32) && nc >= 0 && nc < (cols as i32) {
                             if grid[nr as usize][nc as usize] == '@' {
                                 neighbor_count += 1;
                             }
                         }
                     }
-                    
+
                     // Accessible if fewer than 4 neighbors - mark as x (accessed/removed)
                     if neighbor_count < 4 {
                         result[r][c] = 'x';
@@ -70,37 +75,43 @@ impl Day04 {
     }
 
     fn part1_pattern(&self) -> String {
-        let grid: Vec<Vec<char>> = self.lines.iter()
+        let grid: Vec<Vec<char>> = self.lines
+            .iter()
             .map(|line| line.chars().collect())
             .collect();
-        
+
         let rows = grid.len();
         let cols = grid[0].len();
-        
+
         let mut result = grid.clone();
-        
+
         // 8 directions: top-left, top, top-right, left, right, bottom-left, bottom, bottom-right
         let directions: [(i32, i32); 8] = [
-            (-1, -1), (-1, 0), (-1, 1),
-            (0, -1),           (0, 1),
-            (1, -1),  (1, 0),  (1, 1),
+            (-1, -1),
+            (-1, 0),
+            (-1, 1),
+            (0, -1),
+            (0, 1),
+            (1, -1),
+            (1, 0),
+            (1, 1),
         ];
-        
+
         for r in 0..rows {
             for c in 0..cols {
                 if grid[r][c] == '@' {
                     // Count adjacent @ symbols
                     let mut neighbor_count = 0;
                     for (dr, dc) in directions.iter() {
-                        let nr = r as i32 + dr;
-                        let nc = c as i32 + dc;
-                        if nr >= 0 && nr < rows as i32 && nc >= 0 && nc < cols as i32 {
+                        let nr = (r as i32) + dr;
+                        let nc = (c as i32) + dc;
+                        if nr >= 0 && nr < (rows as i32) && nc >= 0 && nc < (cols as i32) {
                             if grid[nr as usize][nc as usize] == '@' {
                                 neighbor_count += 1;
                             }
                         }
                     }
-                    
+
                     // Accessible if fewer than 4 neighbors - mark as x (accessed/removed)
                     if neighbor_count < 4 {
                         result[r][c] = 'x';
@@ -108,28 +119,35 @@ impl Day04 {
                 }
             }
         }
-        
-        result.iter()
+
+        result
+            .iter()
             .map(|row| row.iter().collect::<String>())
             .collect::<Vec<String>>()
             .join("\n")
     }
-    
+
     fn part2(&self) -> u64 {
-       let mut grid: Vec<Vec<char>> = self.lines.iter()
+        let mut grid: Vec<Vec<char>> = self.lines
+            .iter()
             .map(|line| line.chars().collect())
             .collect();
-        
+
         let rows = grid.len();
         let cols = grid[0].len();
-        
+
         let mut result = grid.clone();
-        
+
         // 8 directions: top-left, top, top-right, left, right, bottom-left, bottom, bottom-right
         let directions: [(i32, i32); 8] = [
-            (-1, -1), (-1, 0), (-1, 1),
-            (0, -1),           (0, 1),
-            (1, -1),  (1, 0),  (1, 1),
+            (-1, -1),
+            (-1, 0),
+            (-1, 1),
+            (0, -1),
+            (0, 1),
+            (1, -1),
+            (1, 0),
+            (1, 1),
         ];
         let mut incrimental_total = 100;
         let mut last_r = 0;
@@ -137,10 +155,7 @@ impl Day04 {
         let mut total_accessible = 0;
         while incrimental_total > 0 {
             incrimental_total = 0;
-            println!("Iteration with grid: {}", grid.iter()
-            .map(|row| row.iter().collect::<String>())
-            .collect::<Vec<String>>()
-            .join("\n"));
+
             for r in 0..rows {
                 for c in 0..cols {
                     if grid[r][c] == 'x' {
@@ -150,15 +165,15 @@ impl Day04 {
                         // Count adjacent @ symbols
                         let mut neighbor_count = 0;
                         for (dr, dc) in directions.iter() {
-                            let nr = r as i32 + dr;
-                            let nc = c as i32 + dc;
-                            if nr >= 0 && nr < rows as i32 && nc >= 0 && nc < cols as i32 {
+                            let nr = (r as i32) + dr;
+                            let nc = (c as i32) + dc;
+                            if nr >= 0 && nr < (rows as i32) && nc >= 0 && nc < (cols as i32) {
                                 if grid[nr as usize][nc as usize] == '@' {
                                     neighbor_count += 1;
                                 }
                             }
                         }
-                        
+
                         // Accessible if fewer than 4 neighbors - mark as x (accessed/removed)
                         if neighbor_count < 4 {
                             result[r][c] = 'x';
@@ -170,41 +185,44 @@ impl Day04 {
                     }
                 }
             }
-            if incrimental_total == 0{
+            if incrimental_total == 0 {
                 result[last_r][last_c] = 'x';
             }
-            
+
             grid = result.clone();
         }
-        
+
         total_accessible
     }
 
-     fn part2_pattern(&self) -> String {
-        let mut grid: Vec<Vec<char>> = self.lines.iter()
+    fn part2_pattern(&self) -> String {
+        let mut grid: Vec<Vec<char>> = self.lines
+            .iter()
             .map(|line| line.chars().collect())
             .collect();
-        
+
         let rows = grid.len();
         let cols = grid[0].len();
-        
+
         let mut result = grid.clone();
-        
+
         // 8 directions: top-left, top, top-right, left, right, bottom-left, bottom, bottom-right
         let directions: [(i32, i32); 8] = [
-            (-1, -1), (-1, 0), (-1, 1),
-            (0, -1),           (0, 1),
-            (1, -1),  (1, 0),  (1, 1),
+            (-1, -1),
+            (-1, 0),
+            (-1, 1),
+            (0, -1),
+            (0, 1),
+            (1, -1),
+            (1, 0),
+            (1, 1),
         ];
         let mut incrimental_total = 100;
         let mut last_r = 0;
         let mut last_c = 0;
         while incrimental_total > 0 {
             incrimental_total = 0;
-            println!("Iteration with grid: {}", grid.iter()
-            .map(|row| row.iter().collect::<String>())
-            .collect::<Vec<String>>()
-            .join("\n"));
+
             for r in 0..rows {
                 for c in 0..cols {
                     if grid[r][c] == 'x' {
@@ -214,15 +232,15 @@ impl Day04 {
                         // Count adjacent @ symbols
                         let mut neighbor_count = 0;
                         for (dr, dc) in directions.iter() {
-                            let nr = r as i32 + dr;
-                            let nc = c as i32 + dc;
-                            if nr >= 0 && nr < rows as i32 && nc >= 0 && nc < cols as i32 {
+                            let nr = (r as i32) + dr;
+                            let nc = (c as i32) + dc;
+                            if nr >= 0 && nr < (rows as i32) && nc >= 0 && nc < (cols as i32) {
                                 if grid[nr as usize][nc as usize] == '@' {
                                     neighbor_count += 1;
                                 }
                             }
                         }
-                        
+
                         // Accessible if fewer than 4 neighbors - mark as x (accessed/removed)
                         if neighbor_count < 4 {
                             result[r][c] = 'x';
@@ -233,13 +251,13 @@ impl Day04 {
                     }
                 }
             }
-            if incrimental_total == 0{
+            if incrimental_total == 0 {
                 result[last_r][last_c] = 'x';
             }
-            
+
             grid = result.clone();
         }
-        
+
         grid.iter()
             .map(|row| row.iter().collect::<String>())
             .collect::<Vec<String>>()
@@ -250,10 +268,11 @@ impl Day04 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     #[test]
     fn test_part1() {
-        let input = r#"..@@.@@@@.
+        let input =
+            r#"..@@.@@@@.
 @@@.@.@.@@
 @@@@@.@.@@
 @.@@@@..@.
@@ -269,7 +288,8 @@ mod tests {
 
     #[test]
     fn test_part1_pattern() {
-        let input = r#"..@@.@@@@.
+        let input =
+            r#"..@@.@@@@.
 @@@.@.@.@@
 @@@@@.@.@@
 @.@@@@..@.
@@ -279,7 +299,8 @@ mod tests {
 @.@@@.@@@@
 .@@@@@@@@.
 @.@.@@@.@."#;
-        let output = r#"..xx.xx@x.
+        let output =
+            r#"..xx.xx@x.
 x@@.@.@.@@
 @@@@@.x.@@
 @.@@@@..@.
@@ -292,10 +313,11 @@ x.x.@@@.x."#;
         let solver = Day04::new(input);
         assert_eq!(solver.part1_pattern(), output);
     }
-    
+
     #[test]
     fn test_part2() {
-        let input = r#"..@@.@@@@.
+        let input =
+            r#"..@@.@@@@.
 @@@.@.@.@@
 @@@@@.@.@@
 @.@@@@..@.
@@ -305,13 +327,14 @@ x.x.@@@.x."#;
 @.@@@.@@@@
 .@@@@@@@@.
 @.@.@@@.@."#;
-  
+
         let solver = Day04::new(input);
         assert_eq!(solver.part2(), 43);
     }
 
-        fn test_part2_pattern() {
-        let input = r#"..@@.@@@@.
+    fn test_part2_pattern() {
+        let input =
+            r#"..@@.@@@@.
 @@@.@.@.@@
 @@@@@.@.@@
 @.@@@@..@.
@@ -321,7 +344,8 @@ x.x.@@@.x."#;
 @.@@@.@@@@
 .@@@@@@@@.
 @.@.@@@.@."#;
-        let output = r#"..........
+        let output =
+            r#"..........
 ..........
 ..........
 ...x@@....
