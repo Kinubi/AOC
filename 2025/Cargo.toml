@@ -4,3 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+glam = "0.30"
+itertools = "0.14.0"
+ndarray = "0.17.1"
+nom = "8.0.0"
